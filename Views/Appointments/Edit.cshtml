@@ -1,0 +1,180 @@
+@model HospitalManagement.Models.Appointment
+
+@{
+    ViewData["Title"] = "Edit Appointment";
+}
+
+<div class="container py-5 animate__animated animate__fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h1 class="h4 mb-0"><i class="fas fa-calendar-edit me-2"></i> Edit Appointment</h1>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger animate__animated animate__headShake"></div>
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4 animate__animated animate__fadeInLeft">
+                                <div class="form-floating">
+                                    <select asp-for="PatientId" class="form-select" asp-items="ViewBag.PatientId">
+                                        <option value="">Select Patient</option>
+                                    </select>
+                                    <label asp-for="PatientId" class="form-label">Patient</label>
+                                    <span asp-validation-for="PatientId" class="invalid-feedback"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4 animate__animated animate__fadeInRight">
+                                <div class="form-floating">
+                                    <select asp-for="DoctorId" class="form-select" asp-items="ViewBag.DoctorId">
+                                        <option value="">Select Doctor</option>
+                                    </select>
+                                    <label asp-for="DoctorId" class="form-label">Doctor</label>
+                                    <span asp-validation-for="DoctorId" class="invalid-feedback"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4 animate__animated animate__fadeInUp">
+                            <div class="form-floating">
+                                <input asp-for="AppointmentDate" class="form-control" placeholder="Appointment Date" />
+                                <label asp-for="AppointmentDate" class="form-label"></label>
+                                <span asp-validation-for="AppointmentDate" class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4 animate__animated animate__fadeInUp">
+                            <div class="form-floating">
+                                <textarea asp-for="Reason" class="form-control" placeholder="Reason for appointment" style="height: 120px"></textarea>
+                                <label asp-for="Reason" class="form-label"></label>
+                                <span asp-validation-for="Reason" class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4 animate__animated animate__fadeInUp">
+                            <div class="form-floating">
+                                <select asp-for="Status" class="form-select">
+                                    <option value="Scheduled">Scheduled</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                                <label asp-for="Status" class="form-label"></label>
+                                <span asp-validation-for="Status" class="invalid-feedback"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4 animate__animated animate__fadeInUp">
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">
+                                <i class="fas fa-arrow-left me-2"></i>Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg px-4">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid #ced4da;
+            transition: all 0.3s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .form-floating > label {
+            padding: 1rem;
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+        }
+        .btn-outline-secondary {
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s;
+        }
+        .btn-outline-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.1);
+        }
+        .invalid-feedback {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #dc3545;
+        }
+        .is-invalid {
+            border-color: #dc3545;
+        }
+        .is-invalid:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+        .alert-danger {
+            border-left: 5px solid #dc3545;
+            border-radius: 8px;
+        }
+    </style>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation delay to form elements
+            const formGroups = document.querySelectorAll('.animate__animated');
+            formGroups.forEach((group, index) => {
+                group.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Enhanced form validation
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+}

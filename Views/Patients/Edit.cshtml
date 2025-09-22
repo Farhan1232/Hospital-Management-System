@@ -1,0 +1,232 @@
+@model HospitalManagement.Models.Patient
+
+@{
+    ViewData["Title"] = "Edit Patient";
+}
+
+<style>
+    /* Custom animations */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-form {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+    
+    .edit-card {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: none;
+        overflow: hidden;
+    }
+    
+    .edit-card:hover {
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    
+    .edit-header {
+        background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .edit-body {
+        padding: 30px;
+    }
+    
+    .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: #4b6cb7;
+        box-shadow: 0 0 0 0.25rem rgba(75, 108, 183, 0.25);
+    }
+    
+    .form-select {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s;
+    }
+    
+    .form-select:focus {
+        border-color: #4b6cb7;
+        box-shadow: 0 0 0 0.25rem rgba(75, 108, 183, 0.25);
+    }
+    
+    .btn-save {
+        background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(75, 108, 183, 0.4);
+    }
+    
+    .btn-back {
+        transition: all 0.3s;
+    }
+    
+    .btn-back:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 117, 125, 0.2);
+    }
+    
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: #555;
+    }
+    
+    .validation-message {
+        font-size: 0.85rem;
+        margin-top: 5px;
+    }
+    
+    @@media (max-width: 768px) {
+        .edit-card {
+            margin: 0 10px;
+        }
+        
+        .edit-body {
+            padding: 20px;
+        }
+        
+        .btn-container {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .btn-save, .btn-back {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container py-5 animate-form">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card edit-card">
+                <div class="card-header edit-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0"><i class="fas fa-user-edit me-2"></i>Edit Patient</h2>
+                        <i class="fas fa-2x fa-user-md"></i>
+                    </div>
+                </div>
+                <div class="card-body edit-body">
+                    <form asp-action="Edit" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label">
+                                        <i class="fas fa-user me-1"></i> Full Name
+                                    </label>
+                                    <input asp-for="Name" class="form-control" placeholder="Enter patient's full name" />
+                                    <span asp-validation-for="Name" class="text-danger validation-message"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="Gender" class="form-label">
+                                        <i class="fas fa-venus-mars me-1"></i> Gender
+                                    </label>
+                                    <select asp-for="Gender" class="form-select">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <span asp-validation-for="Gender" class="text-danger validation-message"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="DateOfBirth" class="form-label">
+                                        <i class="fas fa-birthday-cake me-1"></i> Date of Birth
+                                    </label>
+                                    <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                    <span asp-validation-for="DateOfBirth" class="text-danger validation-message"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <div class="form-group">
+                                    <label asp-for="PhoneNumber" class="form-label">
+                                        <i class="fas fa-phone me-1"></i> Phone Number
+                                    </label>
+                                    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter phone number" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger validation-message"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mt-4 pt-2">
+                            <div class="d-flex justify-content-between btn-container">
+                                <a asp-action="Index" class="btn btn-secondary btn-back">
+                                    <i class="fas fa-arrow-left me-1"></i> Back to List
+                                </a>
+                                <button type="submit" class="btn btn-primary btn-save">
+                                    <i class="fas fa-save me-1"></i> Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Add animation to form elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const formGroups = document.querySelectorAll('.form-group');
+            
+            formGroups.forEach((group, index) => {
+                group.style.opacity = '0';
+                group.style.transform = 'translateY(20px)';
+                group.style.animation = `fadeInUp 0.5s ease-out ${index * 0.1 + 0.3}s forwards`;
+            });
+            
+            // Add floating labels effect
+            const inputs = document.querySelectorAll('.form-control, .form-select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentNode.querySelector('.form-label').style.color = '#4b6cb7';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentNode.querySelector('.form-label').style.color = '#555';
+                });
+            });
+        });
+    </script>
+}

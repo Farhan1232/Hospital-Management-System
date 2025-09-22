@@ -1,0 +1,177 @@
+@model HospitalManagement.Models.Appointment
+
+@{
+    ViewData["Title"] = "Appointment Details";
+}
+
+<div class="container py-5 animate__animated animate__fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h4 mb-0"><i class="fas fa-calendar-check me-2"></i> Appointment Details</h1>
+                        <span class="badge bg-white text-primary fs-6">
+                            ID: @Model.Id
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <!-- Left Column - Patient Info -->
+                        <div class="col-md-6">
+                            <div class="detail-card animate__animated animate__fadeInLeft mb-4">
+                                <div class="detail-header bg-info bg-opacity-10 p-3 rounded-top">
+                                    <h3 class="h5 mb-0"><i class="fas fa-user-injured me-2"></i>Patient Information</h3>
+                                </div>
+                                <div class="detail-body p-3 border rounded-bottom">
+                                    <div class="row mb-2">
+                                        <div class="col-5 fw-bold">Patient Name:</div>
+                                        <div class="col-7">@Html.DisplayFor(model => model.Patient.Name)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="detail-card animate__animated animate__fadeInLeft mb-4">
+                                <div class="detail-header bg-info bg-opacity-10 p-3 rounded-top">
+                                    <h3 class="h5 mb-0"><i class="fas fa-calendar-day me-2"></i>Appointment Timing</h3>
+                                </div>
+                                <div class="detail-body p-3 border rounded-bottom">
+                                    <div class="row mb-2">
+                                        <div class="col-5 fw-bold">Date & Time:</div>
+                                        <div class="col-7">@Model.AppointmentDate.ToString("g")</div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-5 fw-bold">Created At:</div>
+                                        <div class="col-7">@Html.DisplayFor(model => model.CreatedAt)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Doctor Info -->
+                        <div class="col-md-6">
+                            <div class="detail-card animate__animated animate__fadeInRight mb-4">
+                                <div class="detail-header bg-info bg-opacity-10 p-3 rounded-top">
+                                    <h3 class="h5 mb-0"><i class="fas fa-user-md me-2"></i>Doctor Information</h3>
+                                </div>
+                                <div class="detail-body p-3 border rounded-bottom">
+                                    <div class="row mb-2">
+                                        <div class="col-5 fw-bold">Doctor Name:</div>
+                                        <div class="col-7">@Html.DisplayFor(model => model.Doctor.Name)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="detail-card animate__animated animate__fadeInRight mb-4">
+                                <div class="detail-header bg-info bg-opacity-10 p-3 rounded-top">
+                                    <h3 class="h5 mb-0"><i class="fas fa-file-medical me-2"></i>Appointment Details</h3>
+                                </div>
+                                <div class="detail-body p-3 border rounded-bottom">
+                                    <div class="row mb-2">
+                                        <div class="col-5 fw-bold">Status:</div>
+                                        <div class="col-7">
+                                            <span class="badge bg-@(Model.Status == "Completed" ? "success" : Model.Status == "Cancelled" ? "danger" : "info") py-2 px-3 rounded-pill">
+                                                @Html.DisplayFor(model => model.Status)
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5 fw-bold">Reason:</div>
+                                        <div class="col-7">@Html.DisplayFor(model => model.Reason)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4 animate__animated animate__fadeInUp">
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">
+                            <i class="fas fa-arrow-left me-2"></i>Back to List
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-lg px-4">
+                            <i class="fas fa-edit me-2"></i>Edit Appointment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+        }
+        .detail-card {
+            transition: all 0.3s ease;
+        }
+        .detail-card:hover {
+            transform: translateY(-3px);
+        }
+        .detail-header {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .detail-body {
+            background-color: #fff;
+        }
+        .badge {
+            font-size: 0.9em;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+        }
+        .btn-outline-secondary {
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s;
+        }
+        .btn-outline-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.1);
+        }
+        @@media (max-width: 768px) {
+            .detail-card {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation delay to elements
+            const animatedElements = document.querySelectorAll('.animate__animated');
+            animatedElements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+}

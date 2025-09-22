@@ -1,0 +1,148 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Hospital Management Dashboard";
+}
+
+<!-- Carousel Slider -->
+<div id="hospitalCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#hospitalCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#hospitalCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#hospitalCarousel" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner rounded">
+        <div class="carousel-item active">
+            <img src="~/images/hospital.jfif" class="d-block w-100" alt="Hospital Building" style="height: 400px; object-fit: cover;">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                <h5>Modern Healthcare Facilities</h5>
+                <p>State-of-the-art medical equipment and comfortable patient rooms</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/hospital2.jfif" class="d-block w-100" alt="Medical Team" style="height: 400px; object-fit: cover;">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                <h5>Expert Medical Team</h5>
+                <p>Our highly qualified doctors are ready to serve you</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/images/doctor.jfif" class="d-block w-100" alt="Emergency Services" style="height: 400px; object-fit: cover;">
+            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+                <h5>24/7 Emergency Services</h5>
+                <p>Always available when you need us most</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#hospitalCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#hospitalCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="text-center mb-4">
+    <h1>Hospital Management Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Patients</h5>
+            </div>
+            <div class="card-body">
+                <h2>@Model.TotalPatients</h2>
+                <a asp-controller="Patients" asp-action="Index" class="btn btn-primary">View Patients</a>
+                <a asp-controller="Patients" asp-action="Create" class="btn btn-success">Add Patient</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5>Doctors</h5>
+            </div>
+            <div class="card-body">
+                <h2>@Model.TotalDoctors</h2>
+                @* <a asp-controller="Doctors" asp-action="Index" class="btn btn-primary">View Doctors</a>
+                <a asp-controller="Doctors" asp-action="Create" class="btn btn-success">Add Doctor</a> *@
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5>Appointments</h5>
+            </div>
+            <div class="card-body">
+                <h2>@Model.TotalAppointments</h2>
+                <a asp-controller="Appointments" asp-action="Index" class="btn btn-primary">View Appointments</a>
+                <a asp-controller="Appointments" asp-action="Create" class="btn btn-success">Add Appointment</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upcoming Appointments Section -->
+<div class="card mb-4">
+    <div class="card-header bg-warning text-white">
+        <h5 class="mb-0">Upcoming Appointments</h5>
+    </div>
+    <div class="card-body">
+        @if (Model.UpcomingAppointments.Count > 0)
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var appointment in Model.UpcomingAppointments)
+                        {
+                            <tr>
+                                <td>@appointment.Patient.Name</td>
+                                <td>Dr. @appointment.Doctor.Name</td>
+                                <td>@appointment.AppointmentDate.ToString("g")</td>
+                                <td>
+                                    <span class="badge bg-@(appointment.Status == "Completed" ? "success" : appointment.Status == "Cancelled" ? "danger" : "info")">
+                                        @appointment.Status
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-end">
+                <a asp-controller="Appointments" asp-action="Index" class="btn btn-warning">View All Appointments</a>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">No upcoming appointments found.</div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Initialize carousel with auto-rotation
+        document.addEventListener('DOMContentLoaded', function() {
+            var myCarousel = new bootstrap.Carousel(document.getElementById('hospitalCarousel'), {
+                interval: 3000, // Change slide every 3 seconds
+                wrap: true
+            });
+        });
+    </script>
+}

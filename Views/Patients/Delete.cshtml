@@ -1,0 +1,197 @@
+@model HospitalManagement.Models.Patient
+
+@{
+    ViewData["Title"] = "Delete Patient";
+}
+
+<style>
+    /* Custom animations */
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-card {
+        animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    .confirmation-card {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: none;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .confirmation-card:hover {
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header-danger {
+        background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .patient-details {
+        padding: 30px;
+        background-color: #f8f9fa;
+    }
+    
+    .detail-row {
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        transition: all 0.3s;
+    }
+    
+    .detail-row:hover {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+    
+    .detail-label {
+        font-weight: 600;
+        color: #555;
+    }
+    
+    .detail-value {
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .btn-delete {
+        background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .btn-delete:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+    }
+    
+    .btn-back {
+        transition: all 0.3s;
+    }
+    
+    .btn-back:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 117, 125, 0.2);
+    }
+    
+    @@media (max-width: 768px) {
+        .confirmation-card {
+            margin: 0 10px;
+        }
+        
+        .patient-details {
+            padding: 20px;
+        }
+        
+        .detail-row {
+            flex-direction: column;
+        }
+        
+        .detail-label, .detail-value {
+            width: 100% !important;
+            text-align: left !important;
+            padding: 5px 0;
+        }
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card confirmation-card animate-card">
+                <div class="card-header card-header-danger">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0"><i class="fas fa-user-times me-2"></i>Delete Patient</h2>
+                        <i class="fas fa-2x fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+                <div class="card-body patient-details">
+                    <h4 class="text-center mb-4 text-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>Are you sure you want to delete this patient?
+                    </h4>
+                    
+                    <div class="container-fluid">
+                        <div class="row detail-row">
+                            <div class="col-md-3 detail-label">
+                                <i class="fas fa-user me-2"></i>@Html.DisplayNameFor(model => model.Name)
+                            </div>
+                            <div class="col-md-9 detail-value">
+                                @Html.DisplayFor(model => model.Name)
+                            </div>
+                        </div>
+                        
+                        <div class="row detail-row">
+                            <div class="col-md-3 detail-label">
+                                <i class="fas fa-venus-mars me-2"></i>@Html.DisplayNameFor(model => model.Gender)
+                            </div>
+                            <div class="col-md-9 detail-value">
+                                @Html.DisplayFor(model => model.Gender)
+                            </div>
+                        </div>
+                        
+                        <div class="row detail-row">
+                            <div class="col-md-3 detail-label">
+                                <i class="fas fa-birthday-cake me-2"></i>@Html.DisplayNameFor(model => model.DateOfBirth)
+                            </div>
+                            <div class="col-md-9 detail-value">
+                                @Model.DateOfBirth.ToShortDateString()
+                            </div>
+                        </div>
+                        
+                        <div class="row detail-row">
+                            <div class="col-md-3 detail-label">
+                                <i class="fas fa-phone me-2"></i>@Html.DisplayNameFor(model => model.PhoneNumber)
+                            </div>
+                            <div class="col-md-9 detail-value">
+                                @Html.DisplayFor(model => model.PhoneNumber)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form asp-action="Delete" class="mt-5 pt-3">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary btn-back">
+                                <i class="fas fa-arrow-left me-1"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-danger btn-delete">
+                                <i class="fas fa-trash-alt me-1"></i> Confirm Delete
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add animation to elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailRows = document.querySelectorAll('.detail-row');
+            
+            detailRows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(10px)';
+                row.style.animation = `fadeIn 0.4s ease-out ${index * 0.1 + 0.3}s forwards`;
+            });
+            
+            // Add confirmation dialog enhancement
+            const deleteBtn = document.querySelector('.btn-delete');
+            deleteBtn.addEventListener('click', function(e) {
+                if (!confirm('Are you absolutely sure you want to delete this patient record? This action cannot be undone.')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,231 @@
+@model IEnumerable<HospitalManagement.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<div class="container py-5 animate__animated animate__fadeIn">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold"><i class="fas fa-calendar-alt me-3"></i>Appointments</h1>
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus-circle me-2"></i>Create New
+        </a>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4"><i class="fas fa-user-injured me-2"></i>Patient</th>
+                            <th><i class="fas fa-user-md me-2"></i>Doctor</th>
+                            <th><i class="fas fa-clock me-2"></i>Appointment Date</th>
+                            <th><i class="fas fa-info-circle me-2"></i>Status</th>
+                            <th class="text-end pe-4"><i class="fas fa-cogs me-2"></i>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="animate__animated animate__fadeInUp">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3">
+                                            <i class="fas fa-user text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">@Html.DisplayFor(modelItem => item.Patient.Name)</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3">
+                                            <i class="fas fa-user-md text-info"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">@Html.DisplayFor(modelItem => item.Doctor.Name)</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="far fa-calendar-alt me-2 text-muted"></i>
+                                        <span>@item.AppointmentDate.ToString("g")</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge rounded-pill py-2 px-3 bg-@(item.Status == "Completed" ? "success" : item.Status == "Cancelled" ? "danger" : "info")">
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info" data-bs-toggle="tooltip" title="Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .table {
+            margin-bottom: 0;
+        }
+        .table thead th {
+            border-bottom: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            padding: 1rem;
+        }
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+        .table tbody tr:hover {
+            background-color: rgba(13, 110, 253, 0.05);
+            transform: translateX(5px);
+        }
+        .avatar-sm {
+            width: 36px;
+            height: 36px;
+        }
+        .badge {
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+        }
+        .btn-group .btn {
+            border-radius: 8px !important;
+            margin: 0 2px;
+            transition: all 0.3s;
+        }
+        .btn-group .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-outline-warning:hover {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .btn-outline-info:hover {
+            background-color: #0dcaf0;
+            color: #fff;
+        }
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        @@media (max-width: 768px) {
+            .table-responsive {
+                border-radius: 15px;
+                border: 1px solid #eee;
+            }
+            .table thead {
+                display: none;
+            }
+            .table tbody tr {
+                display: block;
+                margin-bottom: 1rem;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            }
+            .table tbody tr td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem;
+                border-bottom: 1px solid #f1f1f1;
+            }
+            .table tbody tr td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                margin-right: 1rem;
+                color: #666;
+            }
+            .table tbody tr td[data-label] {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            .table tbody tr td[data-label]:before {
+                position: absolute;
+                left: 1rem;
+                width: calc(50% - 1rem);
+                padding-right: 1rem;
+                text-align: left;
+            }
+            .btn-group {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation delay to table rows
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.05}s`;
+            });
+            
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Add data-labels for mobile view
+            if (window.innerWidth <= 768) {
+                const headers = ['Patient', 'Doctor', 'Appointment Date', 'Status', 'Actions'];
+                const cells = document.querySelectorAll('tbody td');
+                cells.forEach((cell, index) => {
+                    cell.setAttribute('data-label', headers[index % 5]);
+                });
+            }
+        });
+    </script>
+}
